@@ -21,7 +21,11 @@ def _get_map_with_geojson(geojson_file: str) -> folium.Map:
     return m
 
 
-def main(geojson_file: str):
+def main():
+    geojson_file = sys.argv[1] if len(sys.argv) > 1 else None
+    if not geojson_file:
+        raise ValueError("No GeoJSON file provided")
+
     map = _get_map_with_geojson(geojson_file)
 
     webview.create_window("geoJSON Viewer", html=map.get_root().render())
@@ -29,5 +33,4 @@ def main(geojson_file: str):
 
 
 if __name__ == "__main__":
-    file_arg = sys.argv[1] if len(sys.argv) > 1 else None
-    main(file_arg)
+    main()

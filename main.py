@@ -1,11 +1,12 @@
 import argparse
 
 import folium
+import webview
 
 
-def plot_geojson(geojson_file: str) -> None:
+def _get_map_with_geojson(geojson_file: str) -> folium.Map:
     """
-    Plots a GeoJSON file using Folium and opens it in a Browser.
+    Plots a GeoJSON file using Folium and returns the Map Instance
     Args:
         geojson_file (str): Path to the input GeoJSON file.
     """
@@ -17,7 +18,7 @@ def plot_geojson(geojson_file: str) -> None:
     bounds = geojson.get_bounds()
     m.fit_bounds(bounds)
 
-    m.show_in_browser()
+    return m
 
 
 def main():
@@ -25,7 +26,10 @@ def main():
     parser.add_argument("--geojson", help="Path to the input GeoJSON File", required=True)
     args = parser.parse_args()
 
-    plot_geojson(args.geojson)
+    map = _get_map_with_geojson(args.geojson)
+
+    webview.create_window("geoJSON Viewer", html=map.get_root().render())
+    webview.start()
 
 
 if __name__ == "__main__":

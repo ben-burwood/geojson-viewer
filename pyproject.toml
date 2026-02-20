@@ -1,0 +1,15 @@
+[project]
+name = "geojson-viewer"
+version = "0.1"
+description = "Simple CLI for Opening geoJSON Files on a Folium Map"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "folium>=0.20.0",
+]
+
+[project.scripts]
+geojson-viewer = "main:main"
+
+[tool.ruff]
+line-length = 150

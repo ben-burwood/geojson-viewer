@@ -22,3 +22,8 @@ line-length = 150
 
 [tool.pycrucible]
 entrypoint = "main.py"
+
+# [tool.pycrucible.source]
+# repository = "https://github.com/ben-burwood/geojson-viewer"
+# branch = "main"
+# update_strategy = "pull"

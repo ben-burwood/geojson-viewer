@@ -1,6 +1,6 @@
 [project]
 name = "geojson-viewer"
-version = "0.1"
+version = "0.2"
 description = "Simple CLI for Opening geoJSON Files on a Folium Map"
 readme = "README.md"
 requires-python = ">=3.13"

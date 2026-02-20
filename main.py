@@ -1,4 +1,4 @@
-import argparse
+import sys
 
 import folium
 import webview
@@ -21,16 +21,13 @@ def _get_map_with_geojson(geojson_file: str) -> folium.Map:
     return m
 
 
-def main():
-    parser = argparse.ArgumentParser(description="GeoJSON Viewer")
-    parser.add_argument("--geojson", help="Path to the input GeoJSON File", required=True)
-    args = parser.parse_args()
-
-    map = _get_map_with_geojson(args.geojson)
+def main(geojson_file: str):
+    map = _get_map_with_geojson(geojson_file)
 
     webview.create_window("geoJSON Viewer", html=map.get_root().render())
     webview.start()
 
 
 if __name__ == "__main__":
-    main()
+    file_arg = sys.argv[1] if len(sys.argv) > 1 else None
+    main(file_arg)

@@ -1,4 +1,5 @@
 import sys
+from tkinter import filedialog
 
 import folium
 import webview
@@ -24,7 +25,9 @@ def _get_map_with_geojson(geojson_file: str) -> folium.Map:
 def main():
     geojson_file = sys.argv[1] if len(sys.argv) > 1 else None
     if not geojson_file:
-        raise ValueError("No GeoJSON file provided")
+        geojson_file = filedialog.askopenfilename(title="Select GeoJSON file", filetypes=[("GeoJSON files", "*.geojson"), ("JSON files", "*.json")])
+    if not geojson_file:
+        raise ValueError("No GeoJSON file selected")
 
     map = _get_map_with_geojson(geojson_file)
 

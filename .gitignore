@@ -1,4 +1,7 @@
 *.pyc
 
+pycrucible_payload/
+*.exe
+
 *.geojson
 *.html

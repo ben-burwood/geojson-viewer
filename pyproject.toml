@@ -6,8 +6,12 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "folium>=0.20.0",
-    "pycrucible>=0.4.3",
     "pywebview>=6.1",
+]
+
+[dependency-groups]
+build = [
+    "pycrucible>=0.4.3",
 ]
 
 [project.scripts]
@@ -15,3 +19,6 @@ geojson-viewer = "main:main"
 
 [tool.ruff]
 line-length = 150
+
+[tool.pycrucible]
+entrypoint = "main.py"

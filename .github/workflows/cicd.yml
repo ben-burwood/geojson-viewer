@@ -1,0 +1,61 @@
+name: Build and Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Release Tag"
+        required: true
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v7
+
+      - run: uv sync --locked --group build
+
+      - name: Build executable with pycrucible
+        run: uv run pycrucible -e .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: geojson-viewer.exe
+          path: laucher.exe
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: geojson-viewer.exe
+
+      - name: Set Release Tag
+        id: set_tag
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+          echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+          echo "tag=${{ github.event.inputs.tag_name }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update GitHub Release with Artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ steps.set_tag.outputs.tag }} geojson-launcher.exe --clobber
